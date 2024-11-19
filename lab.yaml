@@ -1,0 +1,236 @@
+openapi: 3.0.1
+info:
+  title: Security Management System API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+
+paths:
+  /persons:
+    get:
+      summary: Get the list of all persons
+      tags:
+        - Persons
+      responses:
+        '200':
+          description: Success - List of persons returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+        '500':
+          description: Internal server error.
+
+    post:
+      summary: Add a new person
+      tags:
+        - Persons
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonInput'
+      responses:
+        '201':
+          description: Person successfully added.
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+
+  /persons/{personId}:
+    delete:
+      summary: Delete a person by ID
+      tags:
+        - Persons
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: ID of the person
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Person successfully deleted.
+        '404':
+          description: Person not found.
+        '500':
+          description: Internal server error.
+
+  /rooms:
+    get:
+      summary: Get the list of all rooms
+      tags:
+        - Rooms
+      responses:
+        '200':
+          description: Success - List of rooms returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+        '500':
+          description: Internal server error.
+
+    post:
+      summary: Add a new room
+      tags:
+        - Rooms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomInput'
+      responses:
+        '201':
+          description: Room successfully added.
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+
+  /rooms/{roomId}:
+    delete:
+      summary: Delete a room by ID
+      tags:
+        - Rooms
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          description: ID of the room
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Room successfully deleted.
+        '404':
+          description: Room not found.
+        '500':
+          description: Internal server error.
+
+  /access:
+    get:
+      summary: Get the list of all access rights
+      tags:
+        - Access Rights
+      responses:
+        '200':
+          description: Success - List of access rights returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccessRight'
+        '500':
+          description: Internal server error.
+
+    post:
+      summary: Add a new access right
+      tags:
+        - Access Rights
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessRightInput'
+      responses:
+        '201':
+          description: Access right successfully added.
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+
+  /access/{accessId}:
+    delete:
+      summary: Delete an access right by ID
+      tags:
+        - Access Rights
+      parameters:
+        - name: accessId
+          in: path
+          required: true
+          description: ID of the access right
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Access right successfully deleted.
+        '404':
+          description: Access right not found.
+        '500':
+          description: Internal server error.
+
+components:
+  schemas:
+    Person:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        role:
+          type: string
+
+    PersonInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John Doe
+        role:
+          type: string
+          example: Manager
+
+    Room:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+
+    RoomInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Conference Room
+        description:
+          type: string
+          example: A room used for meetings
+
+    AccessRight:
+      type: object
+      properties:
+        id:
+          type: integer
+        personId:
+          type: integer
+        roomId:
+          type: integer
+
+    AccessRightInput:
+      type: object
+      properties:
+        personId:
+          type: integer
+          example: 1
+        roomId:
+          type: integer
+          example: 2

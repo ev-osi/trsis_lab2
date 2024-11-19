@@ -1,0 +1,286 @@
+openapi: 3.0.1
+info:
+  title: Security Management System API
+  version: 1.0.0
+servers:
+- description: Local development server
+  url: http://localhost:8080/api/v1
+paths:
+  /persons:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Person'
+                type: array
+          description: Success - List of persons returned.
+        "500":
+          description: Internal server error.
+      summary: Get the list of all persons
+      tags:
+      - Persons
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Persons
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonInput'
+        required: true
+      responses:
+        "201":
+          description: Person successfully added.
+        "400":
+          description: Invalid input.
+        "500":
+          description: Internal server error.
+      summary: Add a new person
+      tags:
+      - Persons
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Persons
+  /persons/{personId}:
+    delete:
+      parameters:
+      - description: ID of the person
+        explode: false
+        in: path
+        name: personId
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Person successfully deleted.
+        "404":
+          description: Person not found.
+        "500":
+          description: Internal server error.
+      summary: Delete a person by ID
+      tags:
+      - Persons
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Persons
+  /rooms:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Room'
+                type: array
+          description: Success - List of rooms returned.
+        "500":
+          description: Internal server error.
+      summary: Get the list of all rooms
+      tags:
+      - Rooms
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Rooms
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomInput'
+        required: true
+      responses:
+        "201":
+          description: Room successfully added.
+        "400":
+          description: Invalid input.
+        "500":
+          description: Internal server error.
+      summary: Add a new room
+      tags:
+      - Rooms
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Rooms
+  /rooms/{roomId}:
+    delete:
+      parameters:
+      - description: ID of the room
+        explode: false
+        in: path
+        name: roomId
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Room successfully deleted.
+        "404":
+          description: Room not found.
+        "500":
+          description: Internal server error.
+      summary: Delete a room by ID
+      tags:
+      - Rooms
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Rooms
+  /access:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AccessRight'
+                type: array
+          description: Success - List of access rights returned.
+        "500":
+          description: Internal server error.
+      summary: Get the list of all access rights
+      tags:
+      - Access Rights
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Access Rights
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessRightInput'
+        required: true
+      responses:
+        "201":
+          description: Access right successfully added.
+        "400":
+          description: Invalid input.
+        "500":
+          description: Internal server error.
+      summary: Add a new access right
+      tags:
+      - Access Rights
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Access Rights
+  /access/{accessId}:
+    delete:
+      parameters:
+      - description: ID of the access right
+        explode: false
+        in: path
+        name: accessId
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Access right successfully deleted.
+        "404":
+          description: Access right not found.
+        "500":
+          description: Internal server error.
+      summary: Delete an access right by ID
+      tags:
+      - Access Rights
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Access Rights
+components:
+  schemas:
+    Person:
+      example:
+        role: role
+        name: name
+        id: 0
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        role:
+          type: string
+      type: object
+    PersonInput:
+      example:
+        role: Manager
+        name: John Doe
+      properties:
+        name:
+          example: John Doe
+          type: string
+        role:
+          example: Manager
+          type: string
+      type: object
+    Room:
+      example:
+        name: name
+        description: description
+        id: 0
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      type: object
+    RoomInput:
+      example:
+        name: Conference Room
+        description: A room used for meetings
+      properties:
+        name:
+          example: Conference Room
+          type: string
+        description:
+          example: A room used for meetings
+          type: string
+      type: object
+    AccessRight:
+      example:
+        personId: 6
+        id: 0
+        roomId: 1
+      properties:
+        id:
+          type: integer
+        personId:
+          type: integer
+        roomId:
+          type: integer
+      type: object
+    AccessRightInput:
+      example:
+        personId: 1
+        roomId: 2
+      properties:
+        personId:
+          example: 1
+          type: integer
+        roomId:
+          example: 2
+          type: integer
+      type: object
